@@ -1,13 +1,9 @@
 import { useEffect } from 'react';
-
-export const useAuth = () => {
-
-  useEffect(() => {
+export const checkToken = () => {
     const token = localStorage.getItem('token');
     if (!token) {
       window.location.href =  '/login'; 
     }
-  }, []);
 
-  return;
 };
+export default checkToken

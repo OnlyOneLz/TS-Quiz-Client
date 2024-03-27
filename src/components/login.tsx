@@ -12,7 +12,7 @@ const MyFormComponent: React.FC = () => {
 
   const checkCredentials = async () => {
     try {
-      const response = await fetch(`http://localhost:4001/api/user`, {
+      const response = await fetch(`http://localhost:4001/user/user`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -40,7 +40,7 @@ const MyFormComponent: React.FC = () => {
 
   const createCredentials = async () => {
     try {
-      const response = await fetch(`http://localhost:4001/api/users`, {
+      const response = await fetch(`http://localhost:4001/user/users`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
