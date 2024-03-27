@@ -173,7 +173,8 @@ code {
 .grid-item-3{
   grid-column: 3 / span 4;
   grid-row: 3 / span 4;
-  border: 6px black solid;
+  border: 4px rgb(0, 0, 0) solid;
+  /* border-radius: 25%; */
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -196,6 +197,9 @@ code {
 
 .scoreboard-title {
   font-size: 2rem;
+  background-color: black;
+  color: white;
+  padding: 0 45vmin 0 45vmin;
 }
 
 .grid-item-5{
