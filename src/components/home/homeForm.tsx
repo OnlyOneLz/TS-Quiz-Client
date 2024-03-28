@@ -1,5 +1,6 @@
 import React, { useState } from "react"
 import { FormControl, Select, MenuItem, InputLabel, SelectChangeEvent, Button } from '@mui/material';
+import { Link } from "react-router-dom";
 
 const HomeForm = () => {
     const [category, setCategory] = useState<string>('');
@@ -26,9 +27,11 @@ const HomeForm = () => {
                             <MenuItem value={'random'}>Random</MenuItem>
                         </Select>
                     </FormControl>
+                    <Link to={'/quiz'}>
                     <Button variant="contained" color="secondary" style={{ border: '3px black solid ', color: 'white', backgroundColor: 'black', marginTop: '1rem' }}>
                         Start Quiz!
                     </Button>
+                    </Link>
                 </form>
             </div>
     )
