@@ -234,6 +234,13 @@ code {
   gap: 5vh;
 }
 
+.scoreboard-scores {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 10vw;
+}
+
 /* MEDIA QUERYS */
 
 @media (max-width: 1000px) {

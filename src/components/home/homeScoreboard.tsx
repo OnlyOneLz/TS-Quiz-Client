@@ -13,11 +13,11 @@ interface UserData {
 
 const HomeScoreboard: React.FC = () => {
     const [scoreboardData, setScoreboardData] = useState<User[]>([]);
-    const [userData, setUserData] = useState<Record<string, UserData>>({});
+    const [userData, setUserData] = useState<Record<string, UserData>>()
 
     useEffect(() => {
         fetchScoreboardData();
-    }, []);
+    },[] );
 
     const fetchScoreboardData = async () => {
         try {
@@ -34,7 +34,7 @@ const HomeScoreboard: React.FC = () => {
             const userDataPromises = data.data.map((user: User) => fetchUserData(user.user_id));
             const userDatas = await Promise.all(userDataPromises);
             console.log(userDatas);
-            const userDataMap = Object.fromEntries(userDatas.map((userData, index) => [data.data[index].userId, userData]));
+            const userDataMap = Object.fromEntries(userDatas.map((userData, index) => [data.data[index].user_id, userData]));
             setUserData(userDataMap);
             console.log(userData);
         } catch (error) {
@@ -68,9 +68,12 @@ const HomeScoreboard: React.FC = () => {
                 <div className="grid-item-7">
                     {scoreboardData.length > 0 &&
                         scoreboardData.map(user => (
-                            <div key={user.user_id}>
-                                <div>{userData[user.user_id]?.username}</div>
+                            <div className='scoreboard-scores' key={user.user_id}>
+                            <hr />
+                                <div>{(userData && userData[user.user_id]?.username) || "Unknown"}</div>
+                            <hr />
                                 <div>{user.score}</div>
+                            <hr />
                             </div>
                         ))
                     }
