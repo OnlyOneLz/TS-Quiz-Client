@@ -1,9 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Croissant+One&family=Kanit:wght@500&family=Kumar+One&family=Oswald:wght@200&family=Rubik+Iso&family=Titillium+Web:wght@200&family=Victor+Mono:wght@100&family=Young+Serif&display=swap');
 
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
@@ -24,11 +24,11 @@ code {
   width: 25rem;
 }
 
-.width-lrg{
+.width-lrg {
   width: 40rem;
 }
 
-.width-full{
+.width-full {
   width: 100vh;
 }
 
@@ -36,27 +36,27 @@ code {
   height: 25rem;
 }
 
-.height-lrg{
+.height-lrg {
   height: 40rem;
 }
 
-.height-full{
+.height-full {
   height: 100vh;
 }
 
-.stack-rg > * + * {
+.stack-rg>*+* {
   margin-top: 1rem;
 }
 
-.stack-lg > * + * {
+.stack-lg>*+* {
   margin-top: 2rem;
 }
 
-.stack-xl > * + * {
+.stack-xl>*+* {
   margin-top: 4rem;
 }
 
-.center{
+.center {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -99,6 +99,7 @@ code {
   font-style: normal;
   font-size: 2rem;
   color: #1976d2;
+
   p {
     margin-top: 1rem;
     color: white;
@@ -127,14 +128,14 @@ code {
 }
 
 .grid-item-1 {
-  animation: slideUp 0.5s ease-out; 
+  animation: slideUp 0.5s ease-out;
   grid-column: 3/ span 4;
   display: flex;
   justify-content: center;
 }
 
 .grid-item-2 {
-  animation: slideUp 0.5s ease-out; 
+  animation: slideUp 0.5s ease-out;
   grid-column: 7/ span 2;
 }
 
@@ -149,9 +150,9 @@ code {
 
 .progress {
   width: 0%;
-  height: 20px; 
-  background-color: #1976d2; 
-  transition: width 0.3s ease; 
+  height: 20px;
+  background-color: #1976d2;
+  transition: width 0.3s ease;
 }
 
 .rank {
@@ -170,7 +171,7 @@ code {
   height: 2.0rem
 }
 
-.grid-item-3{
+.grid-item-3 {
   grid-column: 3 / span 4;
   grid-row: 3 / span 4;
   border: 4px rgb(0, 0, 0) solid;
@@ -181,32 +182,32 @@ code {
   font-family: "Kumar One", serif;
   font-weight: 400;
   font-style: normal;
-  animation: slideUp 0.5s ease-out; 
+  animation: slideUp 0.5s ease-out;
   text-shadow: 6px 6px 10px #d514dc;
+  background-color: rgba(0, 0, 0, 0.516);
 }
 
-.grid-item-4{
+.grid-item-4 {
   grid-column: 3 / span 4;
   grid-row: 7 / span 1;
   display: flex;
   justify-content: center;
   align-items: end;
   gap: 2rem;
-  animation: slideUp 0.5s ease-out; 
+  animation: slideUp 0.5s ease-out;
 }
 
 .scoreboard-title {
   font-size: 2rem;
-  background-color: black;
   color: white;
-  padding: 0 45vmin 0 45vmin;
+  padding: 0 25vw 0 25vw;
 }
 
-.grid-item-5{
+.grid-item-5 {
   grid-column: 1 / span 2;
   grid-row: 1 / span 1;
   margin: 1rem 0 0 4rem;
-  animation: slideUp 0.5s ease-out; 
+  animation: slideUp 0.5s ease-out;
 }
 
 .logout-btn:hover {
@@ -214,35 +215,47 @@ code {
   background-color: antiquewhite;
 }
 
+.grid-item-6 {
+  grid-column: 3 / span 4;
+  grid-row: 2 / span 1;
+  display: flex;
+  justify-content: center;
+  color: white;
+}
+
+.grid-item-7 {
+  grid-column: 3 / span 4;
+  grid-row: 3 / span 3;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  color: white;
+  gap: 5vh;
+}
+
 /* MEDIA QUERYS */
 
 @media (max-width: 1000px) {
-.rank {
-  font-size: 1vmin;
-  padding-bottom: 0.4vmin;
-}
+  .rank {
+    font-size: 1vmin;
+    padding-bottom: 0.4vmin;
+  }
 }
 
 @media (min-width: 1150px) {
-.rank {
-  /* font-size: 1vmin; */
-  padding-right: 0.6vmin;
-}
+  .rank {
+    /* font-size: 1vmin; */
+    padding-right: 0.6vmin;
+  }
 }
 
 @media (min-width: 1450px) {
-.rank {
-  /* font-size: 1vmin; */
-  padding-right: 2vmin;
+  .rank {
+    /* font-size: 1vmin; */
+    padding-right: 2vmin;
+  }
 }
-}
-
-/* @media (min-width: 920px) {
-.rank {
-  font-size: 1vmin;
-  padding-right: 2vmin;
-}
-} */
 
 /* KEYFRAMES */
 
@@ -251,6 +264,7 @@ code {
     transform: translateY(100%);
     opacity: 0;
   }
+
   to {
     transform: translateY(0);
     opacity: 1;

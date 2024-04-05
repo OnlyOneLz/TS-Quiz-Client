@@ -9,6 +9,11 @@ const HomeForm = () => {
         setCategory(event.target.value);
     };
 
+    const handleStartQuiz = () => {
+        localStorage.setItem('category', category);
+        window.location.href = "/category";
+    }
+
     return (
         <div className='grid-item-4'>
                 <form className='quiz-selecion'>
@@ -28,7 +33,7 @@ const HomeForm = () => {
                         </Select>
                     </FormControl>
                     <Link to={'/quiz'}>
-                    <Button variant="contained" color="secondary" style={{ border: '3px black solid ', color: 'white', backgroundColor: 'black', marginTop: '1rem' }}>
+                    <Button onClick={() => handleStartQuiz()} variant="contained" color="secondary" style={{ border: '3px black solid ', color: 'white', backgroundColor: 'black', marginTop: '1rem' }}>
                         Start Quiz!
                     </Button>
                     </Link>

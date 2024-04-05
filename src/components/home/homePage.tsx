@@ -6,7 +6,6 @@ import HomeLogout from './homeLogout';
 
 function Home() {
 
-
     return (
         <div className='grid-temp home-page height-full'>
             <header className='grid-item-1'>
