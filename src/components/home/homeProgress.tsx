@@ -2,9 +2,14 @@ import React, { useEffect, useState }from "react"
 
 const HomeProgress = () => {
     const [progress, setProgress] = useState<number>(() => {
-        const storedProgress = localStorage.getItem('progress');
+        let storedProgress: any = localStorage.getItem('progress');
+        const previousProgressNeeded: any = localStorage.getItem('previous_progress_needed');
+        const progressNeeded: any = localStorage.getItem('progress_needed');
+        const progressCalc = (parseInt(progressNeeded) - parseInt(previousProgressNeeded)) / 100
+        storedProgress = (parseInt(storedProgress) - parseInt(previousProgressNeeded)) / progressCalc
         return storedProgress ? parseInt(storedProgress, 10) : 0;
     });
+    
     const level: string | null = localStorage.getItem('level');
 
     useEffect(() => {
@@ -12,7 +17,7 @@ const HomeProgress = () => {
         const simulateProgress = () => {
             let progressValue = 0;
             interval = setInterval(() => {
-                progressValue += 0.1;
+                progressValue += 0.1; 
                 if (progressValue < progress) {
                     setProgress(progressValue);
                 } else {

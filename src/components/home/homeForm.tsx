@@ -3,7 +3,7 @@ import { FormControl, Select, MenuItem, InputLabel, SelectChangeEvent, Button } 
 import { Link } from "react-router-dom";
 
 const HomeForm = () => {
-    const [category, setCategory] = useState<string>('');
+    const [category, setCategory] = useState<any>();
 
     const handleChange = (event: SelectChangeEvent<string>) => {
         setCategory(event.target.value);
@@ -11,7 +11,6 @@ const HomeForm = () => {
 
     const handleStartQuiz = () => {
         localStorage.setItem('category', category);
-        window.location.href = "/category";
     }
 
     return (
@@ -27,13 +26,14 @@ const HomeForm = () => {
                             onChange={handleChange}
                             style={{ border: '3px black solid' }}
                         >
-                            <MenuItem value={'react'}>React</MenuItem>
-                            <MenuItem value={'typeScript'}>Typescript</MenuItem>
-                            <MenuItem value={'random'}>Random</MenuItem>
+                            <MenuItem value={'basic'}>React</MenuItem>
+                            <MenuItem value={'Back-end'}>Backend</MenuItem>
+                            <MenuItem value={'Front-end'}>Front-end</MenuItem>
+                            {/* <MenuItem value={'Front-end'}>Random</MenuItem> */}
                         </Select>
                     </FormControl>
-                    <Link to={'/quiz'}>
-                    <Button onClick={() => handleStartQuiz()} variant="contained" color="secondary" style={{ border: '3px black solid ', color: 'white', backgroundColor: 'black', marginTop: '1rem' }}>
+                    <Link to={'/quiz2'}>
+                    <Button onClick={() => handleStartQuiz()} disabled={!category} variant="contained" color="secondary" style={{ border: '3px black solid ', color: 'white', backgroundColor: 'black', marginTop: '1rem' }}>
                         Start Quiz!
                     </Button>
                     </Link>

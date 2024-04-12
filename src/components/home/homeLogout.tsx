@@ -6,14 +6,17 @@ const HomeLogout = () => {
 
     const handleLogout = () => {
         localStorage.removeItem('token')
+        localStorage.removeItem('user_id')
+        localStorage.removeItem('progress')
+        localStorage.removeItem('level')
         checkToken()
     }
 
     return (
         <div className='grid-item-5'>
-        <Button onClick={() => handleLogout()} className='logout-btn' variant="contained" color="secondary" style={{ border: '3px #b906bf solid ', color: 'black', backgroundColor: '#b906bf'}}>
+        <button onClick={() => handleLogout()} className='logout-btn'>
             Logout
-        </Button>
+        </button>
     </div>
     )
 }
