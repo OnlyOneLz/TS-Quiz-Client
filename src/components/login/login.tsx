@@ -24,10 +24,14 @@ const MyFormComponent: React.FC = () => {
       });
       if (response.ok) {
         const data = await response.json();
+        console.log(data);
+        
         localStorage.setItem('token', data.token);
-        localStorage.setItem('user_id', data.data.id);
-        localStorage.setItem('progress', data.data.progress);
-        localStorage.setItem('level', data.data.level);
+        localStorage.setItem('user_id', data.data[0].user.id);
+        localStorage.setItem('progress', data.data[0].user.progress);
+        localStorage.setItem('level', data.data[0].user.level);
+        localStorage.setItem('previous_progress_needed', data.data[1].previousProgressNeeded);
+        localStorage.setItem('progress_needed', data.data[2].progressNeeded);
         console.log('Login successful');
         window.location.href = "/";
       } else {
@@ -76,6 +80,8 @@ const MyFormComponent: React.FC = () => {
 
   const handleSubmitSignup = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
+    console.log(event);
+    
     if (formData.signup) {
       console.log('Username:', formData.username);
       console.log('Password:', formData.password);
@@ -93,63 +99,33 @@ const MyFormComponent: React.FC = () => {
 
   return (
     <form onSubmit={handleSubmitLogin} className='center'>
-      <TextField
-        className="width-rg"
+      <input
+        className="width-rg height-input"
         id="Username"
-        label="Username"
-        variant="outlined"
-        InputLabelProps={{ style: { color: '#1976d2' } }}
-        InputProps={{ style: { color: '#1976d2' } }}
-        sx={{
-          '& .MuiOutlinedInput-root': {
-            '& fieldset': { borderColor: '#1976d2' },
-            '&:hover fieldset': { borderColor: 'white' },
-            '&.Mui-focused fieldset': { borderColor: 'white' },
-          },
-        }}
         name="username"
+        placeholder='Username'
         value={formData.username}
         onChange={handleInputChange}
       />
       <div className='div-login-one' />
       {formData.signup ?
         <div>
-          <TextField
-            className="width-rg"
+          <input
+            className="width-rg height-input"
             id="email"
-            label="Email"
-            variant="outlined"
-            InputLabelProps={{ style: { color: '#1976d2' } }}
-            InputProps={{ style: { color: '#1976d2' } }}
-            sx={{
-              '& .MuiOutlinedInput-root': {
-                '& fieldset': { borderColor: '#1976d2' },
-                '&:hover fieldset': { borderColor: 'white' },
-                '&.Mui-focused fieldset': { borderColor: 'white' },
-              },
-            }}
             name="email"
+            placeholder='Email'
             value={formData.email}
             onChange={handleInputChange}
           />
           <div className='div-login-one' />
         </div> : ''
       }
-      <TextField
-        className="width-rg login-form"
+      <input
+        className="width-rg login-form height-input"
         id="password"
-        label="Password"
-        variant="outlined"
-        InputLabelProps={{ style: { color: '#1976d2' } }}
-        InputProps={{ style: { color: '#1976d2' } }}
-        sx={{
-          '& .MuiOutlinedInput-root': {
-            '& fieldset': { borderColor: '#1976d2' },
-            '&:hover fieldset': { borderColor: 'white' },
-            '&.Mui-focused fieldset': { borderColor: 'white' },
-          },
-        }}
         name="password"
+        placeholder='Password'
         type="password"
         value={formData.password}
         onChange={handleInputChange}
