@@ -55,6 +55,18 @@ const QuizPage2 = () => {
 
     const handleAnswerClick = (awsId: number) => {
         checkAnswer(awsId);
+
+        // Retrieve existing user answers array from localStorage
+        const existingUserAnswersString: string | null = localStorage.getItem('users_answers');
+        const existingUserAnswers: number[] = existingUserAnswersString ? JSON.parse(existingUserAnswersString) : [];
+        
+        // Append the new answer to the array
+        const updatedUserAnswers: number[] = [...existingUserAnswers, awsId];
+        
+        // Store the updated array back into localStorage
+        localStorage.setItem('users_answers', JSON.stringify(updatedUserAnswers));
+
+
         setTimeout(() => {
             setCorrectAnswerId(undefined)
             setFalseAnswerId(undefined)
@@ -73,11 +85,11 @@ const QuizPage2 = () => {
         }, 100)
         } else {
             updateScoreboard(userId, points)
-            localStorage.removeItem('quiz_data_questions');
-            localStorage.removeItem('quiz_data_answers');
-            localStorage.removeItem('quiz_index');
+            // localStorage.removeItem('quiz_data_questions');
+            // localStorage.removeItem('quiz_data_answers');
+            // localStorage.removeItem('quiz_index');
             setTimeout(() => {
-                window.location.href = "/";
+                window.location.href = "/quiz/final";
             }, 1500)
         }
     };
