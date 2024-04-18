@@ -85,9 +85,6 @@ const QuizPage2 = () => {
         }, 100)
         } else {
             updateScoreboard(userId, points)
-            // localStorage.removeItem('quiz_data_questions');
-            // localStorage.removeItem('quiz_data_answers');
-            // localStorage.removeItem('quiz_index');
             setTimeout(() => {
                 window.location.href = "/quiz/final";
             }, 1500)
