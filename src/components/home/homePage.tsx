@@ -15,7 +15,7 @@ function Home() {
             <header className='grid-item-1'>
                 <h1 className='home-title'>Quizzer</h1>
             </header>
-            <HomeProgress />
+            <HomeProgress prop={false}/>
             <HomeScoreboard />
             <HomeForm />
             <HomeLogout />

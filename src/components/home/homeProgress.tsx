@@ -1,6 +1,6 @@
-import React, { useEffect, useState }from "react"
+import React, { useEffect, useState } from "react"
 
-const HomeProgress = () => {
+const HomeProgress = ({ prop }: { prop: any }) => {
     const [progress, setProgress] = useState<number>(() => {
         let storedProgress: any = localStorage.getItem('progress');
         const previousProgressNeeded: any = localStorage.getItem('previous_progress_needed');
@@ -9,18 +9,23 @@ const HomeProgress = () => {
         storedProgress = (parseInt(storedProgress) - parseInt(previousProgressNeeded)) / progressCalc
         return storedProgress ? parseInt(storedProgress, 10) : 0;
     });
-    
+
     const level: string | null = localStorage.getItem('level');
+
+    let loading = false
 
     useEffect(() => {
         let interval: NodeJS.Timeout;
         const simulateProgress = () => {
             let progressValue = 0;
             interval = setInterval(() => {
-                progressValue += 0.1; 
+                progressValue += 0.1;
                 if (progressValue < progress) {
                     setProgress(progressValue);
                 } else {
+                    loading = true
+                    console.log(prop);
+                    console.log(loading);
                     clearInterval(interval);
                 }
             }, 10);
@@ -32,12 +37,12 @@ const HomeProgress = () => {
     }, []);
 
     return (
-        <div className='grid-item-2 grid-temp'>
-        <div className='rank'>{level}</div>
-        <div className='progress-bar'>
-            <div className='progress' style={{ width: `${progress}%` }}></div>
+        <div className={`${prop ? `quiz-progress-rank-container ${loading ? 'fade-out' : 'fade-in'}` : 'grid-temp grid-item-2'}`}>
+            <div className={`${prop ? 'quiz-rank' : 'rank'}`}>{prop ? `Level ${level}` : level}</div>
+            <div className={`${prop ? 'quiz-progress-bar' : 'progress-bar'}`}>
+                <div className='progress' style={{ width: `${progress}%` }}></div>
+            </div>
         </div>
-    </div>
     )
 }
 

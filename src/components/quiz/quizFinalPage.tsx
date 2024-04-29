@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import HomeProgress from "../home/homeProgress";
 
 interface Question {
   id: number;
@@ -14,12 +15,41 @@ interface Answer {
 }
 
 export default function QuizFinalPage() {
-    const removeQuizInfo = () => {
-            localStorage.removeItem('quiz_data_questions');
-            localStorage.removeItem('quiz_data_answers');
-            localStorage.removeItem('quiz_index');
-            localStorage.removeItem('users_answers')
-    }
+  const removeQuizInfo = () => {
+    localStorage.removeItem('quiz_data_questions');
+    localStorage.removeItem('quiz_data_answers');
+    localStorage.removeItem('quiz_index');
+    localStorage.removeItem('users_answers')
+  }
+
+  let [progressShowing, setProgressShowing] = useState<boolean>(false)
+  let [pointsShowing, setPointsShowing] = useState<boolean>(false)
+  let [progressPointsShowing, setProgressPointsShowing] = useState<boolean>(true)
+  let [progressDone, setProgressDone] = useState<boolean>(false)
+
+  const points = localStorage.getItem('points')
+
+  useEffect(() => {
+
+    const changePointsProgress = () => {
+      setTimeout(() => {
+        setPointsShowing(true);
+        setTimeout(() => {
+          setProgressShowing(true);
+          setTimeout(() => {
+            setProgressPointsShowing(false);
+          }, 10000);
+        }, 1200);
+      }, 2000);
+    };
+
+    changePointsProgress()
+
+    setTimeout(() => {
+      setProgressDone(true);
+    },9000);
+
+  }, [])
 
   // Retrieve quiz questions from localStorage
   const questionsString: string | null = localStorage.getItem('quiz_data_questions');
@@ -32,14 +62,14 @@ export default function QuizFinalPage() {
   // Retrieve all answers from localStorage and transform them into an object
   const answersString: string | null = localStorage.getItem('quiz_data_answers');
   const answersArray: Answer[] = answersString ? JSON.parse(answersString) : [];
-  
+
   // Convert the answers array into an object where answer IDs are the keys
   const answers: Record<number, Answer> = {};
   answersArray.forEach(answer => {
     answers[answer.id] = answer;
   });
   console.log("Answers: ", answers);
-  
+
 
   // Create an object to map question IDs to their respective correct answers
   const correctAnswersMap: Record<number, string> = {};
@@ -51,28 +81,38 @@ export default function QuizFinalPage() {
   console.log("Correct Answers: ", correctAnswersMap);
   console.log("User Answers: ", userAnswers);
   console.log("Questions: ", questions);
-  
-  
 
   return (
-    <div>
-      <h3>Your Quiz Results!</h3>
+    <div className={`final-page ${progressDone ? 'fade-in-final' : ''}`} >
+      {progressPointsShowing &&
+        <div className="final-page-progress-points-container">
+          {!progressShowing ?
+            <h2 className={`final-page-points ${pointsShowing ? 'fade-out' : ''}`}>
+              You scored {points} points
+            </h2>
+            :
+            <div className={progressDone ? 'fade-out' : ''}>
+              <HomeProgress prop={true} />
+            </div>
+          }
+        </div>
+      }
+      <h3 className="final-quiz-title">Your Quiz Results!</h3>
       <br />
-      <ul>
+      <div>
         {questions.map((question, index) => (
-          <li key={question.id}>
+          <div className="final-question-cards" key={question.id}>
             <p>{question.question}</p>
             <p><strong>Your Selected Answer:</strong> {answers[parseInt(userAnswers[index])].answer}</p>
             {answers[parseInt(userAnswers[index])].answer === correctAnswersMap[question.id] ? <p>This is the correct answer</p> : <p><strong>Correct Answer:</strong> {correctAnswersMap[question.id]}</p>}
             <p>Explanation- </p>
-            <br />
-            <br />
-          </li>
+          </div>
         ))}
-      </ul>
+      </div>
       <Link to={'/'}>
-        <button onClick={removeQuizInfo}>Finish Quiz Review</button>
+        <button className="logout-btn" onClick={removeQuizInfo}>Finish Quiz Review</button>
       </Link>
+      <br />
     </div>
   );
 }
