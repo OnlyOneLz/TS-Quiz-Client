@@ -18,7 +18,7 @@ const QuizPage2 = () => {
         const storedQuizDataQuestionsString: any = localStorage.getItem('quiz_data_questions');
         const storedQuizDataAnswersString: any = localStorage.getItem('quiz_data_answers');
         console.log(storedQuizDataAnswersString);
-        
+
         const storedQuizDataQuestions: any = JSON.parse(storedQuizDataQuestionsString);
         const storedQuizDataAnswers: any = JSON.parse(storedQuizDataAnswersString);
         console.log(storedQuizDataAnswers);
@@ -59,13 +59,12 @@ const QuizPage2 = () => {
         // Retrieve existing user answers array from localStorage
         const existingUserAnswersString: string | null = localStorage.getItem('users_answers');
         const existingUserAnswers: number[] = existingUserAnswersString ? JSON.parse(existingUserAnswersString) : [];
-        
+
         // Append the new answer to the array
         const updatedUserAnswers: number[] = [...existingUserAnswers, awsId];
-        
+
         // Store the updated array back into localStorage
         localStorage.setItem('users_answers', JSON.stringify(updatedUserAnswers));
-
 
         setTimeout(() => {
             setCorrectAnswerId(undefined)
@@ -80,14 +79,13 @@ const QuizPage2 = () => {
             setCurrentIndex(currentIndex + 1);
             setCurrentQuestion(quizData.questions[currentIndex + 1].question);
             setTimeout(() => {
-            setCurrentAnswers(quizData.answers.filter((aws: any) => aws.question_id === quizData.questions[currentIndex + 1].id));
-            setCurrentAnswers(currentAnswers => currentAnswers.sort(() => Math.random() - 0.5));
-        }, 100)
+                setCurrentAnswers(quizData.answers.filter((aws: any) => aws.question_id === quizData.questions[currentIndex + 1].id));
+                setCurrentAnswers(currentAnswers => currentAnswers.sort(() => Math.random() - 0.5));
+            }, 100)
         } else {
+            localStorage.setItem('points', points.toString())
             updateScoreboard(userId, points)
-            setTimeout(() => {
-                window.location.href = "/quiz/final";
-            }, 1500)
+            window.location.href = "/quiz/final";
         }
     };
 
