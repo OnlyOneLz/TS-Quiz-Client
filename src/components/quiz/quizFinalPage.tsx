@@ -87,7 +87,7 @@ export default function QuizFinalPage() {
   return (
     <div className={`final-page ${progressDone ? 'fade-in-final' : ''}`} >
       {progressPointsShowing &&
-        <div className="final-page-progress-points-container">
+        <div className={`final-page-progress-points-container ${progressDone ? 'fade-out' : ''}`}>
           {!progressShowing ?
             <h2 className={`final-page-points ${pointsShowing ? 'fade-out' : ''}`}>
               You scored {points} points

@@ -394,20 +394,21 @@ code {
   position: fixed;
   height: 30vh;
   width: 40vw;
-  border: 2px pink solid;
+  background-color: #000000;
   bottom: 35%;
   left: 30%;
-  color: rgba(255, 255, 255, 0.608);
+  color: rgb(255, 255, 255);
   display: flex;
   justify-content: center;
   align-items: center;
   animation: slideUp 0.5s ease-out;
+  font-family: Jacques Francois Shadow;
+  font-size: 4vmin;
 }
 
 .final-page-progress {
   height: 100%;
   width: 100%;
-  border: 2px pink solid;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -416,12 +417,10 @@ code {
 .final-page-points {
   margin: 2vmin;
   padding: 2vmin;
-  border: 2px pink solid;
   background-color: transparent;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 7vmin;
 }
 
 .quiz-progress-rank-container {
