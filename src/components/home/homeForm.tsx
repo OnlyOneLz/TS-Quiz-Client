@@ -26,7 +26,7 @@ const HomeForm = () => {
                             onChange={handleChange}
                             style={{ border: '3px black solid' }}
                         >
-                            <MenuItem value={'basic'}>React</MenuItem>
+                            <MenuItem value={'Programming Languages'}>React</MenuItem>
                             <MenuItem value={'Back-end'}>Backend</MenuItem>
                             <MenuItem value={'Front-end'}>Front-end</MenuItem>
                             {/* <MenuItem value={'Front-end'}>Random</MenuItem> */}
