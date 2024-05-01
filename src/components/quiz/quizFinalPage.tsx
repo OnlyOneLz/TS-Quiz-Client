@@ -20,6 +20,8 @@ export default function QuizFinalPage() {
     localStorage.removeItem('quiz_data_answers');
     localStorage.removeItem('quiz_index');
     localStorage.removeItem('users_answers')
+    localStorage.removeItem('points')
+    localStorage.removeItem('category')
   }
 
   let [progressShowing, setProgressShowing] = useState<boolean>(false)

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import getQuiz from "./quizFetch2";
+import getQuiz from "./quizFetch";
 import checkToken from "../../utilities/auth";
 import updateScoreboard from "./quizUpdateScoreboard";
 
@@ -11,6 +11,7 @@ const QuizPage2 = () => {
     const [currentAnswers, setCurrentAnswers] = useState<any[]>([]);
     const [correctAnswerId, setCorrectAnswerId] = useState<number>();
     const [falseAnswerId, setFalseAnswerId] = useState<number>();
+    const [clickedAnswer, setClickedAnswer] = useState<number>();
     const userId: any = localStorage.getItem('user_id');
 
 
@@ -71,6 +72,13 @@ const QuizPage2 = () => {
             setFalseAnswerId(undefined)
             changeQuestion();
         }, 500);
+        setClickedAnswer(0)
+    };
+
+    const handleAnswerClick2 = (awsId: number) => {
+        setClickedAnswer(awsId)
+        console.log(clickedAnswer, awsId);
+        
     };
 
     const changeQuestion = () => {
@@ -101,15 +109,22 @@ const QuizPage2 = () => {
 
     return (
         <div className="quiz-page">
+            <div className="quiz-title-container">
+                <h1 className="quiz-title">Quizzer</h1>
+                <p className="quiz-question-num">Q.{currentIndex + 1}</p>
+            </div>
             <div className="quiz-question">{currentQuestion}</div>
             <div className="quiz-answers">
                 <div className="quiz-answer">
                     {currentAnswers.map((aws: any, index: number) => (
-                        <button className={`quiz-answer-button ${aws.id === correctAnswerId ? 'correct' : ''} ${aws.id === falseAnswerId ? 'false' : ''}`} disabled={correctAnswerId !== undefined || falseAnswerId !== undefined} onClick={() => handleAnswerClick(aws.id)} key={index}>{aws.answer}</button>
+                        <button className={`quiz-answer-selection ${aws.id === correctAnswerId ? 'correct' : ''} ${aws.id === falseAnswerId ? 'false' : ''}`} onClick={() => handleAnswerClick2(aws.id)}>
+                        <div className={`quiz-checkbox ${aws.id === clickedAnswer ? 'checkbox-ticked' : ''}`}></div>  
+                        <p className="answer-text">{aws.answer}</p>
+                        </button>
                     ))}
                 </div>
             </div>
-            <div>Points: {points}</div>
+            <button className={`confirm-btn ${clickedAnswer ? '' : 'less-opacity'}`} disabled={clickedAnswer ? false : true} onClick={() => handleAnswerClick(clickedAnswer || 0)}>Confirm Answer</button>
         </div>
     );
 };
