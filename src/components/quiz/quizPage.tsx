@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
-import getQuiz from "./quizFetch";
-import checkToken from "../../utilities/auth";
-import updateScoreboard from "./quizUpdateScoreboard";
+import React, { useEffect, useState } from 'react';
+import getQuiz from './quizFetch';
+import checkToken from '../../utilities/auth';
+import updateScoreboard from './quizUpdateScoreboard';
 
 const QuizPage2 = () => {
     const [quizData, setQuizData] = useState<any>();
@@ -14,19 +14,16 @@ const QuizPage2 = () => {
     const [clickedAnswer, setClickedAnswer] = useState<number>();
     const userId: any = localStorage.getItem('user_id');
 
-
     useEffect(() => {
         const storedQuizDataQuestionsString: any = localStorage.getItem('quiz_data_questions');
         const storedQuizDataAnswersString: any = localStorage.getItem('quiz_data_answers');
-        console.log(storedQuizDataAnswersString);
 
         const storedQuizDataQuestions: any = JSON.parse(storedQuizDataQuestionsString);
         const storedQuizDataAnswers: any = JSON.parse(storedQuizDataAnswersString);
-        console.log(storedQuizDataAnswers);
 
         const storedQuizIndex: any = localStorage.getItem('quiz_index');
 
-        checkToken()
+        checkToken();
 
         if (!storedQuizDataQuestions) {
             const getQuizData = async () => {
@@ -35,7 +32,7 @@ const QuizPage2 = () => {
                     setQuizData(data);
                     if (data.questions.length > 0) {
                         setCurrentQuestion(data.questions[0].question);
-                        setCurrentAnswers(data.answers.filter((aws) => aws.question_id === data.questions[0].id));
+                        setCurrentAnswers(data.answers.filter(aws => aws.question_id === data.questions[0].id));
                         setCurrentAnswers(currentAnswers => currentAnswers.sort(() => Math.random() - 0.5));
                         localStorage.setItem('quiz_data_questions', JSON.stringify(data.questions));
                         localStorage.setItem('quiz_data_answers', JSON.stringify(data.answers));
@@ -50,9 +47,9 @@ const QuizPage2 = () => {
                 setCurrentIndex(parseInt(storedQuizIndex, 10));
                 setCurrentQuestion(storedQuizDataQuestions[currentIndex].question);
                 setCurrentAnswers(storedQuizDataAnswers.filter((aws: any) => aws.question_id === storedQuizDataQuestions[currentIndex].id));
-            };
+            }
         }
-    }, [currentIndex])
+    }, [currentIndex]);
 
     const handleAnswerClick = (awsId: number) => {
         checkAnswer(awsId);
@@ -68,17 +65,15 @@ const QuizPage2 = () => {
         localStorage.setItem('users_answers', JSON.stringify(updatedUserAnswers));
 
         setTimeout(() => {
-            setCorrectAnswerId(undefined)
-            setFalseAnswerId(undefined)
+            setCorrectAnswerId(undefined);
+            setFalseAnswerId(undefined);
             changeQuestion();
         }, 500);
-        setClickedAnswer(0)
+        setClickedAnswer(0);
     };
 
     const handleAnswerClick2 = (awsId: number) => {
-        setClickedAnswer(awsId)
-        console.log(clickedAnswer, awsId);
-        
+        setClickedAnswer(awsId);
     };
 
     const changeQuestion = () => {
@@ -89,21 +84,21 @@ const QuizPage2 = () => {
             setTimeout(() => {
                 setCurrentAnswers(quizData.answers.filter((aws: any) => aws.question_id === quizData.questions[currentIndex + 1].id));
                 setCurrentAnswers(currentAnswers => currentAnswers.sort(() => Math.random() - 0.5));
-            }, 100)
+            }, 100);
         } else {
-            localStorage.setItem('points', points.toString())
-            updateScoreboard(userId, points)
-            window.location.href = "/quiz/final";
+            localStorage.setItem('points', points.toString());
+            updateScoreboard(userId, points);
+            window.location.href = '/quiz/final';
         }
     };
 
     const checkAnswer = (awsId: number) => {
         const correctAnswer = currentAnswers.find((aws: any) => aws.is_correct === true);
         if (correctAnswer && correctAnswer.id === awsId) {
-            setCorrectAnswerId(correctAnswer.id)
+            setCorrectAnswerId(correctAnswer.id);
             setPoints(points + parseInt(correctAnswer.points));
         } else {
-            setFalseAnswerId(awsId)
+            setFalseAnswerId(awsId);
         }
     };
 
@@ -117,14 +112,25 @@ const QuizPage2 = () => {
             <div className="quiz-answers">
                 <div className="quiz-answer">
                     {currentAnswers.map((aws: any, index: number) => (
-                        <button className={`quiz-answer-selection ${aws.id === correctAnswerId ? 'correct' : ''} ${aws.id === falseAnswerId ? 'false' : ''}`} onClick={() => handleAnswerClick2(aws.id)}>
-                        <div className={`quiz-checkbox ${aws.id === clickedAnswer ? 'checkbox-ticked' : ''}`}></div>  
-                        <p className="answer-text">{aws.answer}</p>
+                        <button
+                            className={`quiz-answer-selection ${aws.id === correctAnswerId ? 'correct' : ''} ${
+                                aws.id === falseAnswerId ? 'false' : ''
+                            }`}
+                            onClick={() => handleAnswerClick2(aws.id)}
+                        >
+                            <div className={`quiz-checkbox ${aws.id === clickedAnswer ? 'checkbox-ticked' : ''}`}></div>
+                            <p className="answer-text">{aws.answer}</p>
                         </button>
                     ))}
                 </div>
             </div>
-            <button className={`confirm-btn ${clickedAnswer ? '' : 'less-opacity'}`} disabled={clickedAnswer ? false : true} onClick={() => handleAnswerClick(clickedAnswer || 0)}>Confirm Answer</button>
+            <button
+                className={`confirm-btn ${clickedAnswer ? '' : 'less-opacity'}`}
+                disabled={clickedAnswer ? false : true}
+                onClick={() => handleAnswerClick(clickedAnswer || 0)}
+            >
+                Confirm Answer
+            </button>
         </div>
     );
 };
