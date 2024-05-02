@@ -1,30 +1,30 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 
 interface User {
-    data: object
-    score: number
-    user_id: number
+    data: object;
+    score: number;
+    user_id: number;
 }
 
 interface UserData {
-    data: object
+    data: object;
     username: string;
 }
 
 const HomeScoreboard: React.FC = () => {
     const [scoreboardData, setScoreboardData] = useState<User[]>([]);
-    const [userData, setUserData] = useState<Record<string, UserData>>()
+    const [userData, setUserData] = useState<Record<string, UserData>>();
 
     useEffect(() => {
         fetchScoreboardData();
-    },[] );
+    }, []);
 
     const fetchScoreboardData = async () => {
         try {
             const response = await fetch('http://localhost:4001/scoreboard/all', {
-                method: "GET",
+                method: 'GET',
                 headers: {
-                    "Content-Type": "application/json",
+                    'Content-Type': 'application/json'
                 }
             });
             const data = await response.json();
@@ -37,16 +37,16 @@ const HomeScoreboard: React.FC = () => {
             console.log(error, 'failed to fetch');
         }
     };
-    
+
     const fetchUserData = async (userId: number) => {
         try {
             const response = await fetch(`http://localhost:4001/user/get-one-user/${userId}`, {
-                method: "GET",
+                method: 'GET',
                 headers: {
-                    "Content-Type": "application/json",
+                    'Content-Type': 'application/json'
                 }
             });
-            const data: UserData = await response.json();             
+            const data: UserData = await response.json();
             return data.data;
         } catch (error) {
             console.log(error, 'failed to fetch');
@@ -54,22 +54,21 @@ const HomeScoreboard: React.FC = () => {
     };
 
     return (
-        <div className='grid-item-3'>
-            <div className='grid-temp'>
-                <div className='grid-item-1 scoreboard-title'>scoreboard</div>
+        <div className="grid-item-3">
+            <div className="grid-temp">
+                <div className="grid-item-1 scoreboard-title">scoreboard</div>
                 <div className="grid-item-6">TODAYS HIGHEST SCORES:</div>
                 <div className="grid-item-7">
                     {scoreboardData.length > 0 &&
                         scoreboardData.map(user => (
-                            <div className='scoreboard-scores' key={user.user_id}>
-                            <hr />
-                                <div>{(userData && userData[user.user_id]?.username) || "Unknown"}</div>
-                            <hr />
+                            <div className="scoreboard-scores" key={user.user_id}>
+                                <hr />
+                                <div>{(userData && userData[user.user_id]?.username) || 'Unknown'}</div>
+                                <hr />
                                 <div>{user.score}</div>
-                            <hr />
+                                <hr />
                             </div>
-                        ))
-                    }
+                        ))}
                 </div>
             </div>
         </div>
