@@ -1,46 +1,30 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import SimulateProgress from '../quiz/simulateProgress';
 
-const HomeProgress = ({ prop }: { prop: any }) => {
+const HomeProgress: React.FC<any> = ({ prop, preLevelProgressNum, upLevel }: { prop: any; preLevelProgressNum: number; upLevel: boolean }) => {
+    const previousProgressNeeded: any = localStorage.getItem('previous_progress_needed');
+    const progressNeeded: any = localStorage.getItem('progress_needed');
+    const progressCalc = (parseInt(progressNeeded) - parseInt(previousProgressNeeded)) / 100;
+    console.log(progressCalc);
+
     const [progress, setProgress] = useState<number>(() => {
         let storedProgress: any = localStorage.getItem('progress');
-        const previousProgressNeeded: any = localStorage.getItem('previous_progress_needed');
-        const progressNeeded: any = localStorage.getItem('progress_needed');
-        const progressCalc = (parseInt(progressNeeded) - parseInt(previousProgressNeeded)) / 100;
         storedProgress = (parseInt(storedProgress) - parseInt(previousProgressNeeded)) / progressCalc;
-        return storedProgress ? parseInt(storedProgress, 10) : 0;
+        return storedProgress ? parseFloat(storedProgress) : 0;
     });
 
-    const level: string | null = localStorage.getItem('level');
+    const [preLevelProgress, setPreLevelProgress] = useState<number>(() => {
+        let storedProgress: any = preLevelProgressNum;
+        storedProgress = (parseInt(storedProgress) - parseInt(previousProgressNeeded)) / progressCalc;
+        return storedProgress ? parseFloat(storedProgress) : 0;
+    });
 
-    let loading = false;
+    console.log(progress, preLevelProgressNum, preLevelProgress);
 
-    useEffect(() => {
-        let interval: NodeJS.Timeout;
-        const simulateProgress = () => {
-            let progressValue = 0;
-            interval = setInterval(() => {
-                progressValue += 0.1;
-                if (progressValue < progress) {
-                    setProgress(progressValue);
-                } else {
-                    loading = true;
-                    clearInterval(interval);
-                }
-            }, 7);
-        };
+    let level: any = localStorage.getItem('level');
+    level = parseInt(level);
 
-        simulateProgress();
-        return () => clearInterval(interval);
-    }, []);
-
-    return (
-        <div className={`${prop ? `quiz-progress-rank-container ${loading ? 'fade-out' : 'fade-in'}` : 'grid-temp grid-item-2'}`}>
-            <div className={`${prop ? 'quiz-rank' : 'rank'}`}>Level {level}</div>
-            <div className={`${prop ? 'quiz-progress-bar' : 'progress-bar'}`}>
-                <div className="progress" style={{ width: `${progress}%` }}></div>
-            </div>
-        </div>
-    );
+    return <SimulateProgress preLevelProgress={preLevelProgress} progress={progress} upLevel={upLevel} prop={prop} level={level} />;
 };
 
 export default HomeProgress;

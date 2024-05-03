@@ -8,7 +8,8 @@
   },
   "include": [
     "src/**/*.ts",
-    "src/**/*.tsx"
+    "src/**/*.tsx",
+    "src/components/utilities/simulateProgress.ts"
   ],
   "exclude": [
     "node_modules"

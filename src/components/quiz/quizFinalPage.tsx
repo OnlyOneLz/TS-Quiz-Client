@@ -29,9 +29,13 @@ export default function QuizFinalPage() {
     let [pointsShowing, setPointsShowing] = useState<boolean>(false);
     let [progressPointsShowing, setProgressPointsShowing] = useState<boolean>(true);
     let [progressDone, setProgressDone] = useState<boolean>(false);
+    let [preLevelProgress, setPreLevelProgress] = useState<any>();
+    let [upLevel, setUpLevel] = useState<any>();
 
     const points: any = localStorage.getItem('points');
     const userId = localStorage.getItem('user_id');
+    const preLevel: any = localStorage.getItem('level');
+
     let progress: any = localStorage.getItem('progress');
     progress = parseInt(progress);
 
@@ -43,7 +47,7 @@ export default function QuizFinalPage() {
                     setProgressShowing(true);
                     setTimeout(() => {
                         setProgressPointsShowing(false);
-                    }, 10000);
+                    }, 20000);
                 }, 1200);
             }, 2000);
         };
@@ -52,14 +56,25 @@ export default function QuizFinalPage() {
 
         setTimeout(() => {
             setProgressDone(true);
-        }, 11000);
+        }, 20000);
 
         const fetchProgressData = async () => {
             const { progressNeeded, previousProgressNeeded, level }: any = await updateProgress(userId, points);
+
+            console.log(preLevel, level.level);
+
+            localStorage.setItem('pre_level_progress', progress);
+            setPreLevelProgress(localStorage.getItem('pre_level_progress'));
             localStorage.setItem('progress_needed', progressNeeded.progressNeeded);
             localStorage.setItem('previous_progress_needed', previousProgressNeeded.previousProgressNeeded);
             localStorage.setItem('progress', progress + parseInt(points));
-            localStorage.setItem('level', level.level);
+
+            if (parseInt(preLevel) !== level.level) {
+                localStorage.setItem('level', level.level);
+                setUpLevel(true);
+            } else {
+                setUpLevel(false);
+            }
         };
 
         fetchProgressData(); // localStorage.setItem('progress', newProgress ? newProgress : progress);
@@ -91,6 +106,8 @@ export default function QuizFinalPage() {
         }
     });
 
+    console.log(questions, answers, userAnswers, correctAnswersMap);
+
     return (
         <div className={`final-page ${progressDone ? 'fade-in-final' : ''}`}>
             {progressPointsShowing && (
@@ -99,31 +116,14 @@ export default function QuizFinalPage() {
                         <h2 className={`final-page-points ${pointsShowing ? 'fade-out' : ''}`}>You scored {points} points</h2>
                     ) : (
                         <div className={progressDone ? 'fade-out' : ''}>
-                            <HomeProgress prop={true} />
+                            <HomeProgress prop={true} preLevelProgressNum={preLevelProgress} upLevel={upLevel} />
                         </div>
                     )}
                 </div>
             )}
             <h3 className="final-quiz-title">Your Quiz Results!</h3>
             <br />
-            <div>
-                {questions.map((question, index) => (
-                    <div className="final-question-cards" key={question.id}>
-                        <p>{question.question}</p>
-                        <p>
-                            <strong>Your Selected Answer:</strong> {answers[parseInt(userAnswers[index])].answer}
-                        </p>
-                        {answers[parseInt(userAnswers[index])].answer === correctAnswersMap[question.id] ? (
-                            <p>This is the correct answer</p>
-                        ) : (
-                            <p>
-                                <strong>Correct Answer:</strong> {correctAnswersMap[question.id]}
-                            </p>
-                        )}
-                        <p>Explanation- </p>
-                    </div>
-                ))}
-            </div>
+
             <Link to={'/'}>
                 <button className="logout-btn" onClick={removeQuizInfo}>
                     Finish Quiz Review

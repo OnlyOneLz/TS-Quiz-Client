@@ -8,6 +8,8 @@ import checkToken from '../../utilities/auth';
 
 function Home() {
     const userId: any = localStorage.getItem('user_id');
+    let preLevelProgress: any = localStorage.getItem('previous_progress_needed');
+    preLevelProgress = parseInt(preLevelProgress);
     fetchCredentials(userId);
     checkToken();
     return (
@@ -15,7 +17,7 @@ function Home() {
             <header className="grid-item-1">
                 <h1 className="home-title">Quizzer</h1>
             </header>
-            <HomeProgress prop={false} />
+            <HomeProgress prop={false} preLevelProgressNum={preLevelProgress} upLevel={false} />
             <HomeScoreboard />
             <HomeForm />
             <HomeLogout />
