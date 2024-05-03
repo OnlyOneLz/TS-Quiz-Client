@@ -13,7 +13,7 @@ const SimulateProgress: React.FC<SimulateProgressProps> = ({ preLevelProgress, p
     const [animateTo, setAnimateTo] = useState<number>(progress);
     const [currentlevel, setCurrentLevel] = useState<number>(level);
 
-    console.log(prop);
+    console.log(level);
 
     useEffect(() => {
         if (upLevel) {
@@ -25,14 +25,14 @@ const SimulateProgress: React.FC<SimulateProgressProps> = ({ preLevelProgress, p
                 setCurrentLevel(level + 1);
                 setCurrentProgress(0);
                 setAnimateTo(progress);
-            }, 10000);
+            }, 5000);
         } else {
             setAnimateTo(progress);
         }
     }, [preLevelProgress, progress, upLevel]);
 
     useEffect(() => {
-        const animationDuration = 400;
+        const animationDuration = 500;
 
         const startTime = Date.now();
 
