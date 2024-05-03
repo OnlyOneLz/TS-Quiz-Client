@@ -400,6 +400,7 @@ code {
     animation: slideUp 0.5s ease-out;
     font-family: Jacques Francois Shadow;
     font-size: 3vmin;
+    border-radius: 25px;
 }
 
 .final-page-progress {
