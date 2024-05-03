@@ -2,10 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import HomeProgress from '../home/homeProgress';
 import updateProgress from './updateProgressFetch';
+import QuizFinalPageQuestionCards from './quizFinalPageQuestionCards'
 
 interface Question {
     id: number;
     question: string;
+    explanation: string;
 }
 
 interface Answer {
@@ -106,6 +108,8 @@ export default function QuizFinalPage() {
         }
     });
 
+    console.log("level: ", preLevel);
+    
     console.log(questions, answers, userAnswers, correctAnswersMap);
 
     return (
@@ -123,6 +127,12 @@ export default function QuizFinalPage() {
             )}
             <h3 className="final-quiz-title">Your Quiz Results!</h3>
             <br />
+            <div>
+                {questions.map((question, index) => (
+                     <QuizFinalPageQuestionCards question={question} userAnswer={answers[parseInt(userAnswers[index])].answer} checkAnswer={answers[parseInt(userAnswers[index])].answer === correctAnswersMap[question.id]} correctAnswer={correctAnswersMap[question.id]}/>
+
+                ))}
+            </div>
 
             <Link to={'/'}>
                 <button className="logout-btn" onClick={removeQuizInfo}>
