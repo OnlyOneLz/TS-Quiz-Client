@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import HomeProgress from '../home/homeProgress';
 import updateProgress from './updateProgressFetch';
-import QuizFinalPageQuestionCards from './quizFinalPageQuestionCards'
+import QuizFinalPageQuestionCards from './quizFinalPageQuestionCards';
 
 interface Question {
     id: number;
@@ -58,7 +58,7 @@ export default function QuizFinalPage() {
 
         setTimeout(() => {
             setProgressDone(true);
-        }, 20000);
+        }, 15000);
 
         const fetchProgressData = async () => {
             const { progressNeeded, previousProgressNeeded, level }: any = await updateProgress(userId, points);
@@ -108,8 +108,8 @@ export default function QuizFinalPage() {
         }
     });
 
-    console.log("level: ", preLevel);
-    
+    console.log('level: ', preLevel);
+
     console.log(questions, answers, userAnswers, correctAnswersMap);
 
     return (
@@ -129,8 +129,12 @@ export default function QuizFinalPage() {
             <br />
             <div>
                 {questions.map((question, index) => (
-                     <QuizFinalPageQuestionCards question={question} userAnswer={answers[parseInt(userAnswers[index])].answer} checkAnswer={answers[parseInt(userAnswers[index])].answer === correctAnswersMap[question.id]} correctAnswer={correctAnswersMap[question.id]}/>
-
+                    <QuizFinalPageQuestionCards
+                        question={question}
+                        userAnswer={answers[parseInt(userAnswers[index])].answer}
+                        checkAnswer={answers[parseInt(userAnswers[index])].answer === correctAnswersMap[question.id]}
+                        correctAnswer={correctAnswersMap[question.id]}
+                    />
                 ))}
             </div>
 
