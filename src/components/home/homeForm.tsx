@@ -26,10 +26,11 @@ const HomeForm = () => {
                         onChange={handleChange}
                         style={{ border: '3px black solid' }}
                     >
-                        <MenuItem value={'Programming Languages'}>React</MenuItem>
-                        <MenuItem value={'Back-end'}>Backend</MenuItem>
-                        <MenuItem value={'Front-end'}>Front-end</MenuItem>
-                        {/* <MenuItem value={'Front-end'}>Random</MenuItem> */}
+                        <MenuItem value={'Programming Languages'}>Programming Languages</MenuItem>
+                        <MenuItem value={'Databases'}>Databases</MenuItem>
+                        <MenuItem value={'Web Development'}>Web Development</MenuItem>
+                        <MenuItem value={'Software Development Lifecycle'}>Software Development Lifecycle</MenuItem>
+                        <MenuItem value={'Random'}>Random</MenuItem>
                     </Select>
                 </FormControl>
                 <Link to={'/quiz2'}>

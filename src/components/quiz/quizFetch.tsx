@@ -6,15 +6,18 @@ interface QuizData {
 const getQuiz = async (): Promise<QuizData | null> => {
     const quizType = localStorage.getItem('category');
     let questionIds: string[] = [];
+    console.log(quizType);
 
     try {
-        const response = await fetch(`http://localhost:4001/question/display/${quizType}`, {
+        const response = await fetch(`http://localhost:4001/question/${quizType === 'Random' ? 'Random' : `display/${quizType}`}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
             }
         });
         const data = await response.json();
+        console.log(data);
+
         data.data.map((question: { id: string }) => questionIds.push(question.id));
 
         const response2 = await fetch(`http://localhost:4001/answer/display`, {
