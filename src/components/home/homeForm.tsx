@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { FormControl, Select, MenuItem, InputLabel, SelectChangeEvent, Button } from '@mui/material';
 import { Link } from 'react-router-dom';
+import { Category } from '../../types';
 
 const HomeForm = () => {
-    const [category, setCategory] = useState<any>();
+    const [category, setCategory] = useState<Category | ''>('');
 
-    const handleChange = (event: SelectChangeEvent<string>) => {
-        setCategory(event.target.value);
+    const handleChange = (event: SelectChangeEvent<Category>) => {
+        setCategory(event.target.value as Category);
     };
 
     const handleStartQuiz = () => {

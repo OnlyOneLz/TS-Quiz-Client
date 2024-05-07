@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import getQuiz from './quizFetch';
 import checkToken from '../../utilities/auth';
 import updateScoreboard from './quizUpdateScoreboard';
+import { UserID } from '../../types';
 
 const QuizPage2 = () => {
     const [quizData, setQuizData] = useState<any>();
@@ -12,7 +13,7 @@ const QuizPage2 = () => {
     const [correctAnswerId, setCorrectAnswerId] = useState<number>();
     const [falseAnswerId, setFalseAnswerId] = useState<number>();
     const [clickedAnswer, setClickedAnswer] = useState<number>();
-    const userId: any = localStorage.getItem('user_id');
+    const userId: UserID = localStorage.getItem('user_id');
 
     useEffect(() => {
         const storedQuizDataQuestionsString: any = localStorage.getItem('quiz_data_questions');

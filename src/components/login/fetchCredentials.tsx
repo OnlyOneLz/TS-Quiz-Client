@@ -1,4 +1,6 @@
-export const fetchCredentials = async (userId: number) => {
+import { UserID } from '../../types';
+
+export const fetchCredentials = async (userId: UserID) => {
     try {
         const response = await fetch(`http://localhost:4001/user/get-one-user/${userId}`, {
             method: 'GET',

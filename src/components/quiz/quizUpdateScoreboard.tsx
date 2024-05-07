@@ -1,4 +1,6 @@
-const updateScoreboard = async (userId: number, userScore: number) => {
+import { UserID } from '../../types';
+
+const updateScoreboard = async (userId: UserID, userScore: number) => {
     try {
         const response = await fetch(`http://localhost:4001/scoreboard/user`, {
             method: 'POST',
