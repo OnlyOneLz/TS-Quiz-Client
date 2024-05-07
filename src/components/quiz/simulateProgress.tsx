@@ -1,12 +1,5 @@
 import React, { useState, useEffect } from 'react';
-
-interface SimulateProgressProps {
-    preLevelProgress: number;
-    progress: number;
-    upLevel: boolean;
-    prop: boolean;
-    level: number;
-}
+import { SimulateProgressProps } from '../../types';
 
 const SimulateProgress: React.FC<SimulateProgressProps> = ({ preLevelProgress, progress, upLevel, prop, level }) => {
     const [currentProgress, setCurrentProgress] = useState<number>(preLevelProgress);

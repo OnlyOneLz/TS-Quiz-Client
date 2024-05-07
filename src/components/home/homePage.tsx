@@ -5,11 +5,11 @@ import HomeForm from './homeForm';
 import HomeLogout from './homeLogout';
 import fetchCredentials from '../login/fetchCredentials';
 import checkToken from '../../utilities/auth';
+import { UserID, PreviousLevelProgress } from '../../types';
 
 function Home() {
-    const userId: any = localStorage.getItem('user_id');
-    let preLevelProgress: any = localStorage.getItem('previous_progress_needed');
-    preLevelProgress = parseInt(preLevelProgress);
+    const userId: UserID = localStorage.getItem('user_id');
+    let preLevelProgress: PreviousLevelProgress = parseInt(localStorage.getItem('previous_progress_needed') || '0', 10);
     fetchCredentials(userId);
     checkToken();
     return (
