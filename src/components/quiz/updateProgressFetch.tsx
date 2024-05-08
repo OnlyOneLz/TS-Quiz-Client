@@ -1,6 +1,6 @@
-export const updateProgress = async (userId: any, points: any) => {
-    const oldProgress: any = localStorage.getItem('progress');
-    console.log(oldProgress, points);
+import { OldProgress, Points, UserID } from "../../types";
+
+export const updateProgress = async (userId: UserID, points: Points) => {
 
     try {
         const response = await fetch(`http://localhost:4001/user/add-progress`, {

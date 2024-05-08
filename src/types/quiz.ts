@@ -5,3 +5,9 @@ export interface SimulateProgressProps {
     prop: boolean;
     level: number;
 }
+
+export type SimulateProgress = number
+
+export type Points = string
+
+export type OldProgress = string | null

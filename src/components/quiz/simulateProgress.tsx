@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { SimulateProgressProps } from '../../types';
+import { SimulateProgress, SimulateProgressProps } from '../../types';
 
 const SimulateProgress: React.FC<SimulateProgressProps> = ({ preLevelProgress, progress, upLevel, prop, level }) => {
-    const [currentProgress, setCurrentProgress] = useState<number>(preLevelProgress);
-    const [animateTo, setAnimateTo] = useState<number>(progress);
-    const [currentlevel, setCurrentLevel] = useState<number>(level);
+    const [currentProgress, setCurrentProgress] = useState<SimulateProgress>(preLevelProgress);
+    const [animateTo, setAnimateTo] = useState<SimulateProgress>(progress);
+    const [currentlevel, setCurrentLevel] = useState<SimulateProgress>(level);
 
     console.log(level);
 
