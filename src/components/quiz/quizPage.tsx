@@ -2,27 +2,27 @@ import React, { useEffect, useState } from 'react';
 import getQuiz from './quizFetch';
 import checkToken from '../../utilities/auth';
 import updateScoreboard from './quizUpdateScoreboard';
-import { UserID } from '../../types';
+import { UserID, QuizData, Answer, Question, UnparcedData, anyProgress, UserAnswers } from '../../types';
 
 const QuizPage2 = () => {
-    const [quizData, setQuizData] = useState<any>();
-    const [currentIndex, setCurrentIndex] = useState<any>(0);
+    const [quizData, setQuizData] = useState<QuizData>({ questions: [], answers: [] });
+    const [currentIndex, setCurrentIndex] = useState<number>(0);
     const [points, setPoints] = useState<number>(0);
     const [currentQuestion, setCurrentQuestion] = useState<string>('');
-    const [currentAnswers, setCurrentAnswers] = useState<any[]>([]);
+    const [currentAnswers, setCurrentAnswers] = useState<Answer[]>([]);
     const [correctAnswerId, setCorrectAnswerId] = useState<number>();
     const [falseAnswerId, setFalseAnswerId] = useState<number>();
     const [clickedAnswer, setClickedAnswer] = useState<number>();
-    const userId: UserID = localStorage.getItem('user_id');
+    const userId: UserID = localStorage.getItem('user_id') as UserID;
 
     useEffect(() => {
-        const storedQuizDataQuestionsString: any = localStorage.getItem('quiz_data_questions');
-        const storedQuizDataAnswersString: any = localStorage.getItem('quiz_data_answers');
+        const storedQuizDataQuestionsString: UnparcedData = localStorage.getItem('quiz_data_questions');
+        const storedQuizDataAnswersString: UnparcedData = localStorage.getItem('quiz_data_answers');
 
-        const storedQuizDataQuestions: any = JSON.parse(storedQuizDataQuestionsString);
-        const storedQuizDataAnswers: any = JSON.parse(storedQuizDataAnswersString);
+        const storedQuizDataQuestions: Question[] = JSON.parse(storedQuizDataQuestionsString || '');
+        const storedQuizDataAnswers: Answer[] = JSON.parse(storedQuizDataAnswersString || '');
 
-        const storedQuizIndex: any = localStorage.getItem('quiz_index');
+        const storedQuizIndex: anyProgress = parseInt(localStorage.getItem('quiz_index') || '0');
 
         checkToken();
 
@@ -37,7 +37,7 @@ const QuizPage2 = () => {
                         setCurrentAnswers(currentAnswers => currentAnswers.sort(() => Math.random() - 0.5));
                         localStorage.setItem('quiz_data_questions', JSON.stringify(data.questions));
                         localStorage.setItem('quiz_data_answers', JSON.stringify(data.answers));
-                        localStorage.setItem('quiz_index', currentIndex);
+                        localStorage.setItem('quiz_index', String(currentIndex));
                     }
                 }
             };
@@ -45,9 +45,9 @@ const QuizPage2 = () => {
         } else {
             setQuizData({ questions: storedQuizDataQuestions, answers: storedQuizDataAnswers });
             if (storedQuizDataQuestions.length > 0) {
-                setCurrentIndex(parseInt(storedQuizIndex, 10));
+                setCurrentIndex(storedQuizIndex);
                 setCurrentQuestion(storedQuizDataQuestions[currentIndex].question);
-                setCurrentAnswers(storedQuizDataAnswers.filter((aws: any) => aws.question_id === storedQuizDataQuestions[currentIndex].id));
+                setCurrentAnswers(storedQuizDataAnswers.filter((aws: Answer) => aws.question_id === storedQuizDataQuestions[currentIndex].id));
             }
         }
     }, [currentIndex]);
@@ -55,14 +55,9 @@ const QuizPage2 = () => {
     const handleAnswerClick = (awsId: number) => {
         checkAnswer(awsId);
 
-        // Retrieve existing user answers array from localStorage
-        const existingUserAnswersString: string | null = localStorage.getItem('users_answers');
-        const existingUserAnswers: number[] = existingUserAnswersString ? JSON.parse(existingUserAnswersString) : [];
-
-        // Append the new answer to the array
-        const updatedUserAnswers: number[] = [...existingUserAnswers, awsId];
-
-        // Store the updated array back into localStorage
+        const existingUserAnswersString: UnparcedData = localStorage.getItem('users_answers');
+        const existingUserAnswers: UserAnswers = existingUserAnswersString ? JSON.parse(existingUserAnswersString) : [];
+        const updatedUserAnswers: UserAnswers = [...existingUserAnswers, awsId];
         localStorage.setItem('users_answers', JSON.stringify(updatedUserAnswers));
 
         setTimeout(() => {
@@ -79,7 +74,7 @@ const QuizPage2 = () => {
 
     const changeQuestion = () => {
         if (currentIndex < quizData.questions.length - 1) {
-            localStorage.setItem('quiz_index', currentIndex + 1);
+            localStorage.setItem('quiz_index', String(currentIndex + 1));
             setCurrentIndex(currentIndex + 1);
             setCurrentQuestion(quizData.questions[currentIndex + 1].question);
             setTimeout(() => {
@@ -94,10 +89,10 @@ const QuizPage2 = () => {
     };
 
     const checkAnswer = (awsId: number) => {
-        const correctAnswer = currentAnswers.find((aws: any) => aws.is_correct === true);
+        const correctAnswer = currentAnswers.find((aws: Answer) => aws.is_correct === true);
         if (correctAnswer && correctAnswer.id === awsId) {
             setCorrectAnswerId(correctAnswer.id);
-            setPoints(points + parseInt(correctAnswer.points));
+            setPoints(points + correctAnswer.points);
         } else {
             setFalseAnswerId(awsId);
         }
@@ -112,7 +107,7 @@ const QuizPage2 = () => {
             <div className="quiz-question">{currentQuestion}</div>
             <div className="quiz-answers">
                 <div className="quiz-answer">
-                    {currentAnswers.map((aws: any, index: number) => (
+                    {currentAnswers.map((aws: Answer) => (
                         <button
                             className={`quiz-answer-selection ${aws.id === correctAnswerId ? 'correct' : ''} ${
                                 aws.id === falseAnswerId ? 'false' : ''

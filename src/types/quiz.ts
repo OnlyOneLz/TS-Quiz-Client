@@ -5,7 +5,7 @@ export type QuestionIds = string[];
 
 export type UnparcedData = string | null;
 
-export type UserAnswers = [number];
+export type UserAnswers = number[];
 
 export interface SimulateProgressProps {
     preLevelProgress: anyProgress;
@@ -16,8 +16,8 @@ export interface SimulateProgressProps {
 }
 
 export interface QuizData {
-    questions: any[];
-    answers: any[];
+    questions: Question[];
+    answers: Answer[];
 }
 
 export interface Question {
@@ -31,6 +31,7 @@ export interface Answer {
     answer: string;
     question_id: number;
     is_correct: boolean;
+    points: number;
 }
 
 export interface updateProgressRes {
@@ -55,9 +56,3 @@ export interface QuestionCardProps {
     checkAnswer: boolean;
     correctAnswer: string;
 }
-
-export type SimulateProgress = number
-
-export type Points = string
-
-export type OldProgress = string | null
