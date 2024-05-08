@@ -55,3 +55,9 @@ export interface QuestionCardProps {
     checkAnswer: boolean;
     correctAnswer: string;
 }
+
+export type SimulateProgress = number
+
+export type Points = string
+
+export type OldProgress = string | null
