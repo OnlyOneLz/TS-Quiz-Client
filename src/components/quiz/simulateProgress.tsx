@@ -1,21 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { SimulateProgressProps } from '../../types';
+import { SimulateProgressProps, anyProgress } from '../../types';
 
 const SimulateProgress: React.FC<SimulateProgressProps> = ({ preLevelProgress, progress, upLevel, prop, level }) => {
-    const [currentProgress, setCurrentProgress] = useState<number>(preLevelProgress);
-    const [animateTo, setAnimateTo] = useState<number>(progress);
-    const [currentlevel, setCurrentLevel] = useState<number>(level);
-
-    console.log(level);
+    const [currentProgress, setCurrentProgress] = useState<anyProgress>(preLevelProgress);
+    const [animateTo, setAnimateTo] = useState<anyProgress>(progress);
+    const [currentlevel, setCurrentLevel] = useState<anyProgress>(level);
 
     useEffect(() => {
         if (upLevel) {
             setCurrentProgress(preLevelProgress);
             setAnimateTo(100);
-            console.log(progress);
 
             setTimeout(() => {
-                setCurrentLevel(level + 1);
+                setCurrentLevel(level! + 1);
                 setCurrentProgress(0);
                 setAnimateTo(progress);
             }, 5000);
@@ -32,7 +29,7 @@ const SimulateProgress: React.FC<SimulateProgressProps> = ({ preLevelProgress, p
         const animate = () => {
             const elapsedTime = Date.now() - startTime;
             const percentageComplete = Math.min(1, elapsedTime / animationDuration);
-            const newProgress = currentProgress + (animateTo - currentProgress) * percentageComplete;
+            const newProgress = currentProgress! + (animateTo! - currentProgress!) * percentageComplete;
             setCurrentProgress(newProgress);
 
             if (percentageComplete < 1) {
@@ -45,7 +42,7 @@ const SimulateProgress: React.FC<SimulateProgressProps> = ({ preLevelProgress, p
 
     return (
         <div className={`${prop ? `quiz-progress-rank-container fade-in` : 'grid-temp grid-item-2'}`}>
-            <div className={`${prop ? 'quiz-rank' : 'rank'}`}>Level {upLevel ? currentlevel - 1 : currentlevel}</div>
+            <div className={`${prop ? 'quiz-rank' : 'rank'}`}>Level {upLevel ? currentlevel! - 1 : currentlevel}</div>
             <div className={`${prop ? 'quiz-progress-bar' : 'progress-bar'}`}>
                 <div className="progress" style={{ width: `${currentProgress}%` }}></div>
             </div>

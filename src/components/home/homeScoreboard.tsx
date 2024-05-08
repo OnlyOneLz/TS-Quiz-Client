@@ -1,15 +1,5 @@
 import React, { useEffect, useState } from 'react';
-
-interface User {
-    data: object;
-    score: number;
-    user_id: number;
-}
-
-interface UserData {
-    data: object;
-    username: string;
-}
+import { UserData, User } from '../../types';
 
 const HomeScoreboard: React.FC = () => {
     const [scoreboardData, setScoreboardData] = useState<User[]>([]);

@@ -530,7 +530,6 @@ code {
 
 .question-modal {
     display: none;
-    /* position: fixed; */
     flex-direction: column;
     justify-content: center;
     gap: 1vh;

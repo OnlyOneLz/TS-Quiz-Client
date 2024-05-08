@@ -3,19 +3,7 @@ import { Link } from 'react-router-dom';
 import HomeProgress from '../home/homeProgress';
 import updateProgress from './updateProgressFetch';
 import QuizFinalPageQuestionCards from './quizFinalPageQuestionCards';
-
-interface Question {
-    id: number;
-    question: string;
-    explanation: string;
-}
-
-interface Answer {
-    id: number;
-    answer: string;
-    question_id: number;
-    is_correct: boolean;
-}
+import { Question, Answer, anyProgress, updateProgressRes, UserID, UnparcedData, UserAnswers } from '../../types';
 
 export default function QuizFinalPage() {
     const removeQuizInfo = () => {
@@ -31,15 +19,13 @@ export default function QuizFinalPage() {
     let [pointsShowing, setPointsShowing] = useState<boolean>(false);
     let [progressPointsShowing, setProgressPointsShowing] = useState<boolean>(true);
     let [progressDone, setProgressDone] = useState<boolean>(false);
-    let [preLevelProgress, setPreLevelProgress] = useState<any>();
-    let [upLevel, setUpLevel] = useState<any>();
+    let [preLevelProgress, setPreLevelProgress] = useState<number>(0);
+    let [upLevel, setUpLevel] = useState<boolean>(false);
 
-    const points: any = localStorage.getItem('points');
-    const userId = localStorage.getItem('user_id');
-    const preLevel: any = localStorage.getItem('level');
-
-    let progress: any = localStorage.getItem('progress');
-    progress = parseInt(progress);
+    const points: anyProgress = parseInt(localStorage.getItem('points') || '0');
+    const userId: UserID = localStorage.getItem('user_id');
+    const preLevel: anyProgress = parseInt(localStorage.getItem('level') || '0');
+    let progress: anyProgress = parseInt(localStorage.getItem('progress') || '0');
 
     useEffect(() => {
         const changePointsProgress = () => {
@@ -61,37 +47,41 @@ export default function QuizFinalPage() {
         }, 15000);
 
         const fetchProgressData = async () => {
-            const { progressNeeded, previousProgressNeeded, level }: any = await updateProgress(userId, points);
+            const updateProgressResult: updateProgressRes | undefined = await updateProgress(userId, points);
 
-            console.log(preLevel, level.level);
+            if (updateProgressResult) {
+                const { progressNeeded, previousProgressNeeded, level } = updateProgressResult;
 
-            localStorage.setItem('pre_level_progress', progress);
-            setPreLevelProgress(localStorage.getItem('pre_level_progress'));
-            localStorage.setItem('progress_needed', progressNeeded.progressNeeded);
-            localStorage.setItem('previous_progress_needed', previousProgressNeeded.previousProgressNeeded);
-            localStorage.setItem('progress', progress + parseInt(points));
+                console.log(preLevel, level.level);
 
-            if (parseInt(preLevel) !== level.level) {
-                localStorage.setItem('level', level.level);
-                setUpLevel(true);
-            } else {
-                setUpLevel(false);
+                localStorage.setItem('pre_level_progress', String(progress));
+                setPreLevelProgress(parseInt(localStorage.getItem('pre_level_progress') || '0'));
+                localStorage.setItem('progress_needed', String(progressNeeded.progressNeeded));
+                localStorage.setItem('previous_progress_needed', String(previousProgressNeeded.previousProgressNeeded));
+                const pPlusP = (progress || 0) + points;
+                localStorage.setItem('progress', String(pPlusP));
+
+                if (preLevel !== level.level) {
+                    localStorage.setItem('level', String(level.level));
+                    setUpLevel(true);
+                } else {
+                    setUpLevel(false);
+                }
             }
         };
 
-        fetchProgressData(); // localStorage.setItem('progress', newProgress ? newProgress : progress);
+        fetchProgressData();
     }, []);
 
-    // Retrieve quiz questions from localStorage
-    const questionsString: string | null = localStorage.getItem('quiz_data_questions');
+    const questionsString: UnparcedData = localStorage.getItem('quiz_data_questions');
     const questions: Question[] = questionsString ? JSON.parse(questionsString) : [];
 
     // Retrieve user's selected answers from localStorage
-    const userAnswersString: string | null = localStorage.getItem('users_answers');
-    const userAnswers: string[] = userAnswersString ? JSON.parse(userAnswersString) : [];
+    const userAnswersString: UnparcedData = localStorage.getItem('users_answers');
+    const userAnswers: UserAnswers = userAnswersString ? JSON.parse(userAnswersString) : [];
 
     // Retrieve all answers from localStorage and transform them into an object
-    const answersString: string | null = localStorage.getItem('quiz_data_answers');
+    const answersString: UnparcedData = localStorage.getItem('quiz_data_answers');
     const answersArray: Answer[] = answersString ? JSON.parse(answersString) : [];
 
     // Convert the answers array into an object where answer IDs are the keys
@@ -131,8 +121,8 @@ export default function QuizFinalPage() {
                 {questions.map((question, index) => (
                     <QuizFinalPageQuestionCards
                         question={question}
-                        userAnswer={answers[parseInt(userAnswers[index])].answer}
-                        checkAnswer={answers[parseInt(userAnswers[index])].answer === correctAnswersMap[question.id]}
+                        userAnswer={answers[userAnswers[index]].answer}
+                        checkAnswer={answers[userAnswers[index]].answer === correctAnswersMap[question.id]}
                         correctAnswer={correctAnswersMap[question.id]}
                     />
                 ))}
