@@ -1,6 +1,7 @@
-import { OldProgress, Points, UserID } from "../../types";
+import { UserID, anyProgress } from '../../types';
 
-export const updateProgress = async (userId: UserID, points: Points) => {
+export const updateProgress = async (userId: UserID, points: anyProgress) => {
+    const oldProgress: anyProgress = parseInt(localStorage.getItem('progress') || '0');
 
     try {
         const response = await fetch(`http://localhost:4001/user/add-progress`, {
@@ -10,7 +11,7 @@ export const updateProgress = async (userId: UserID, points: Points) => {
             },
             body: JSON.stringify({
                 userId: userId,
-                userScore: parseInt(points)
+                userScore: points
             })
         });
         const data = await response.json();

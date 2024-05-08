@@ -1,28 +1,25 @@
 import React, { useState } from 'react';
 import SimulateProgress from '../quiz/simulateProgress';
+import { HomeProgressProps, anyProgress } from '../../types';
 
-const HomeProgress: React.FC<any> = ({ prop, preLevelProgressNum, upLevel }: { prop: any; preLevelProgressNum: number; upLevel: boolean }) => {
-    const previousProgressNeeded: any = localStorage.getItem('previous_progress_needed');
-    const progressNeeded: any = localStorage.getItem('progress_needed');
-    const progressCalc = (parseInt(progressNeeded) - parseInt(previousProgressNeeded)) / 100;
-    console.log(progressCalc);
+const HomeProgress: React.FC<HomeProgressProps> = ({ prop, preLevelProgressNum, upLevel }) => {
+    const previousProgressNeeded: anyProgress = parseInt(localStorage.getItem('previous_progress_needed') || '0');
+    const progressNeeded: anyProgress = parseInt(localStorage.getItem('progress_needed') || '0');
+    const progressCalc = (progressNeeded - previousProgressNeeded) / 100;
 
-    const [progress, setProgress] = useState<number>(() => {
-        let storedProgress: any = localStorage.getItem('progress');
-        storedProgress = (parseInt(storedProgress) - parseInt(previousProgressNeeded)) / progressCalc;
-        return storedProgress ? parseFloat(storedProgress) : 0;
+    const [progress, setProgress] = useState<anyProgress>(() => {
+        let storedProgress: anyProgress = parseInt(localStorage.getItem('progress') || '0');
+        storedProgress = (storedProgress - previousProgressNeeded) / progressCalc;
+        return storedProgress ? storedProgress : 0;
     });
 
-    const [preLevelProgress, setPreLevelProgress] = useState<number>(() => {
-        let storedProgress: any = preLevelProgressNum;
-        storedProgress = (parseInt(storedProgress) - parseInt(previousProgressNeeded)) / progressCalc;
-        return storedProgress ? parseFloat(storedProgress) : 0;
+    const [preLevelProgress, setPreLevelProgress] = useState<anyProgress>(() => {
+        let storedProgress: anyProgress = preLevelProgressNum;
+        storedProgress = ((storedProgress || 0) - previousProgressNeeded) / progressCalc;
+        return storedProgress ? storedProgress : 0;
     });
 
-    console.log(progress, preLevelProgressNum, preLevelProgress);
-
-    let level: any = localStorage.getItem('level');
-    level = parseInt(level);
+    let level: anyProgress = parseInt(localStorage.getItem('level') || '0');
 
     return <SimulateProgress preLevelProgress={preLevelProgress} progress={progress} upLevel={upLevel} prop={prop} level={level} />;
 };

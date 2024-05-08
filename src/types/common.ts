@@ -2,10 +2,10 @@
 
 export type UserID = string | null;
 
-export type PreviousLevelProgress = number | null;
+export type anyProgress = number | null;
 
 export interface HomeProgressProps {
     prop: boolean;
-    preLevelProgressNum: PreviousLevelProgress;
+    preLevelProgressNum: anyProgress;
     upLevel: boolean;
 }

@@ -1,12 +1,8 @@
-interface QuizData {
-    questions: any[];
-    answers: any[];
-}
+import { QuizData, QuestionIds } from '../../types';
 
 const getQuiz = async (): Promise<QuizData | null> => {
     const quizType = localStorage.getItem('category');
-    let questionIds: string[] = [];
-    console.log(quizType);
+    let questionIds: QuestionIds = [];
 
     try {
         const response = await fetch(`http://localhost:4001/question/${quizType === 'Random' ? 'Random' : `display/${quizType}`}`, {

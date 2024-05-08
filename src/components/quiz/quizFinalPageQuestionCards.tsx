@@ -1,18 +1,8 @@
 import React, { useState } from 'react';
-
-interface QuestionCardProps {
-    question: {
-        question: string;
-        explanation: string;
-        id: number;
-    };
-    userAnswer: string;
-    checkAnswer: boolean;
-    correctAnswer: string;
-}
+import { QuestionCardProps } from '../../types';
 
 export const QuizFinalPageQuestionCards: React.FC<QuestionCardProps> = ({ question, userAnswer, checkAnswer, correctAnswer }) => {
-    const [modalOpen, setModalOpen] = useState<any>(false);
+    const [modalOpen, setModalOpen] = useState<boolean>(false);
     return (
         <>
             <div className={`final-question-cards`} key={question.id}>
