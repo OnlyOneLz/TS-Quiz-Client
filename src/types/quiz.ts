@@ -10,6 +10,7 @@ export type UserAnswers = number[];
 export interface SimulateProgressProps {
     preLevelProgress: anyProgress;
     progress: anyProgress;
+    progressNeeded: anyProgress;
     upLevel: boolean;
     prop: boolean;
     level: anyProgress;
@@ -31,7 +32,7 @@ export interface Answer {
     answer: string;
     question_id: number;
     is_correct: boolean;
-    points: number;
+    points: string;
 }
 
 export interface updateProgressRes {
