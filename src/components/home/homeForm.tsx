@@ -34,7 +34,7 @@ const HomeForm = () => {
                         <MenuItem value={'Random'}>Random</MenuItem>
                     </Select>
                 </FormControl>
-                <Link to={'/quiz2'}>
+                <Link to={'/quiz'}>
                     <Button
                         onClick={() => handleStartQuiz()}
                         disabled={!category}

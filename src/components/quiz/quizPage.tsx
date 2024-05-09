@@ -16,11 +16,11 @@ const QuizPage2 = () => {
     const userId: UserID = localStorage.getItem('user_id') as UserID;
 
     useEffect(() => {
-        const storedQuizDataQuestionsString: UnparcedData = localStorage.getItem('quiz_data_questions');
-        const storedQuizDataAnswersString: UnparcedData = localStorage.getItem('quiz_data_answers');
+        const storedQuizDataQuestionsString: any = localStorage.getItem('quiz_data_questions');
+        const storedQuizDataAnswersString: any = localStorage.getItem('quiz_data_answers');
 
-        const storedQuizDataQuestions: Question[] = JSON.parse(storedQuizDataQuestionsString || '');
-        const storedQuizDataAnswers: Answer[] = JSON.parse(storedQuizDataAnswersString || '');
+        const storedQuizDataQuestions = JSON.parse(storedQuizDataQuestionsString);
+        const storedQuizDataAnswers = JSON.parse(storedQuizDataAnswersString);
 
         const storedQuizIndex: anyProgress = parseInt(localStorage.getItem('quiz_index') || '0');
 
@@ -92,7 +92,7 @@ const QuizPage2 = () => {
         const correctAnswer = currentAnswers.find((aws: Answer) => aws.is_correct === true);
         if (correctAnswer && correctAnswer.id === awsId) {
             setCorrectAnswerId(correctAnswer.id);
-            setPoints(points + correctAnswer.points);
+            setPoints(points + parseInt(correctAnswer.points));
         } else {
             setFalseAnswerId(awsId);
         }
