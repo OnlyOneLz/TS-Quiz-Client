@@ -248,20 +248,46 @@ code {
     grid-column: 3 / span 4;
     grid-row: 3 / span 7;
     display: flex;
-    justify-content: flex-start;
     flex-direction: column;
     align-items: center;
-    color: white;
-    gap: 0.5vh;
-    flex-grow: 1;
+    color: #fff; 
+    gap: 1rem;
 }
 
 .scoreboard-scores {
     display: flex;
-    flex-direction: row;
-    justify-content: center;
-    gap: 8vw;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #4b0082; 
+    padding: 0.8rem 1.2rem; 
+    border-radius: 0.5rem; 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+    transition: background-color 0.3s ease;
 }
+
+.scoreboard-scores:hover {
+    background-color: #5a1d99; 
+}
+
+.rank {
+    width: 4rem; /* Set fixed width for rank */
+    text-align: center; /* Center the text */
+    font-weight: bold;
+    font-size: 1.4rem;
+}
+
+.username {
+    flex-grow: 1;
+    margin: 0 1rem;
+}
+
+.score {
+    width: 6rem; /* Set fixed width for score */
+    text-align: center; /* Center the text */
+    font-weight: bold;
+    font-size: 1.3rem;
+}
+
 
 .quiz-page {
     background-color: #2e2e2e;
