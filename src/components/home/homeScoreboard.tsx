@@ -49,17 +49,16 @@ const HomeScoreboard: React.FC = () => {
                 <div className="grid-item-1 scoreboard-title">scoreboard</div>
                 <div className="grid-item-6">TODAYS HIGHEST SCORES:</div>
                 <div className="grid-item-7">
-                    {scoreboardData.length > 0 &&
-                        scoreboardData.map(user => (
-                            <div className="scoreboard-scores" key={user.user_id}>
-                                <hr />
-                                <div>{(userData && userData[user.user_id]?.username) || 'Unknown'}</div>
-                                <hr />
-                                <div>{user.score}</div>
-                                <hr />
-                            </div>
-                        ))}
-                </div>
+                {scoreboardData.length > 0 &&
+                    scoreboardData.map((user, index) => (
+                        <div className="scoreboard-scores" key={user.user_id}>
+                            <div className="rank">{index + 1}</div>
+                            <div className="username">{(userData && userData[user.user_id]?.username) || 'Unknown'}</div>
+                            <div className="score">{user.score}</div>
+                        </div>
+                    ))}
+            </div>
+
             </div>
         </div>
     );
