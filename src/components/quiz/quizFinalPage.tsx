@@ -13,6 +13,7 @@ export default function QuizFinalPage() {
         localStorage.removeItem('users_answers');
         localStorage.removeItem('points');
         localStorage.removeItem('category');
+        localStorage.removeItem('alreadyLoaded');
     };
 
     let [progressShowing, setProgressShowing] = useState<boolean>(false);
@@ -26,6 +27,7 @@ export default function QuizFinalPage() {
     const userId: UserID = localStorage.getItem('user_id');
     const preLevel: anyProgress = parseInt(localStorage.getItem('level') || '0');
     let progress: anyProgress = parseInt(localStorage.getItem('progress') || '0');
+    let alreadyLoaded: string | boolean = localStorage.getItem('alreadyLoaded') || false;
 
     useEffect(() => {
         const changePointsProgress = () => {
@@ -41,7 +43,6 @@ export default function QuizFinalPage() {
 
         const fetchProgressData = async () => {
             const updateProgressResult: updateProgressRes | undefined = await updateProgress(userId, points);
-
             if (updateProgressResult) {
                 const { progressNeeded, previousProgressNeeded, level } = updateProgressResult;
                 localStorage.setItem('pre_level_progress', String(progress));
@@ -90,13 +91,14 @@ export default function QuizFinalPage() {
 
     return (
         <div className={`final-page`}>
-            {progressPointsShowing && !progressShowing ? (
-                <div className={`final-page-progress-points-container `}>
-                    <h2 className={`final-page-points ${pointsShowing ? 'fade-out' : ''}`}>You scored {points} points</h2>
-                </div>
-            ) : (
-                <HomeProgress prop={true} preLevelProgressNum={preLevelProgress} upLevel={upLevel} />
-            )}
+            {!alreadyLoaded &&
+                (progressPointsShowing && !progressShowing ? (
+                    <div className={`final-page-progress-points-container `}>
+                        <h2 className={`final-page-points ${pointsShowing ? 'fade-out' : ''}`}>You scored {points} points</h2>
+                    </div>
+                ) : (
+                    <HomeProgress prop={true} preLevelProgressNum={preLevelProgress} upLevel={upLevel} />
+                ))}
             <h3 className="final-quiz-title">Your Quiz Results!</h3>
             <br />
             <div>
