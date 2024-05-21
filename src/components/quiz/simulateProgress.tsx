@@ -50,6 +50,11 @@ const SimulateProgress: React.FC<SimulateProgressProps> = ({ preLevelProgress, p
         }
     }, [currentProgress]);
 
+    if (shouldFadeOut) {
+        localStorage.setItem('alreadyLoaded', 'true');
+    } else {
+        localStorage.setItem('points', '0');
+    }
     return (
         <>
             {prop ? (
