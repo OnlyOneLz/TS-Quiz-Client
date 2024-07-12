@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { SimulateProgressProps, anyProgress } from '../../types';
 
-const SimulateProgress: React.FC<SimulateProgressProps> = ({ preLevelProgress, progress, upLevel, prop, level }) => {
+const SimulateProgress: React.FC<SimulateProgressProps> = ({ preLevelProgress, progress, progressNeeded, upLevel, prop, level }) => {
     const [currentProgress, setCurrentProgress] = useState<anyProgress>(preLevelProgress);
     const [animateTo, setAnimateTo] = useState<anyProgress>(progress);
     const [currentlevel, setCurrentLevel] = useState<anyProgress>(level);
+    const [shouldFadeOut, setShouldFadeOut] = useState<boolean>(false);
+
+    const progressValue: anyProgress = parseInt(localStorage.getItem('progress') || '0');
 
     useEffect(() => {
         if (upLevel) {
@@ -22,7 +25,7 @@ const SimulateProgress: React.FC<SimulateProgressProps> = ({ preLevelProgress, p
     }, [preLevelProgress, progress, upLevel]);
 
     useEffect(() => {
-        const animationDuration = 500;
+        const animationDuration = 400;
 
         const startTime = Date.now();
 
@@ -36,17 +39,43 @@ const SimulateProgress: React.FC<SimulateProgressProps> = ({ preLevelProgress, p
                 requestAnimationFrame(animate);
             }
         };
-
         requestAnimationFrame(animate);
-    }, [currentProgress, animateTo]);
 
+        if (Math.floor(currentProgress || 0) === Math.floor(animateTo || 0)) {
+            setTimeout(() => {
+                setShouldFadeOut(true);
+            }, 3000);
+        } else {
+            setShouldFadeOut(false);
+        }
+    }, [currentProgress]);
+
+    if (shouldFadeOut) {
+        localStorage.setItem('alreadyLoaded', 'true');
+    } else {
+        localStorage.setItem('points', '0');
+    }
     return (
-        <div className={`${prop ? `quiz-progress-rank-container fade-in` : 'grid-temp grid-item-2'}`}>
-            <div className={`${prop ? 'quiz-rank' : 'rank'}`}>Level {upLevel ? currentlevel! - 1 : currentlevel}</div>
-            <div className={`${prop ? 'quiz-progress-bar' : 'progress-bar'}`}>
-                <div className="progress" style={{ width: `${currentProgress}%` }}></div>
-            </div>
-        </div>
+        <>
+            {prop ? (
+                <div className={`final-page-progress-points-container ${shouldFadeOut ? 'fade-out' : ''}`}>
+                    <div className="quiz-progress-rank-container">
+                        <div className="quiz-rank">Level {upLevel ? currentlevel! - 1 : currentlevel}</div>
+                        <div className="quiz-progress-bar">
+                            <div className="progress" style={{ width: `${currentProgress}%` }}></div>
+                        </div>
+                        <p>Points needed till next level: {Math.floor((progressNeeded || 0) - (progressValue || 0))}</p>
+                    </div>
+                </div>
+            ) : (
+                <div className="grid-temp grid-item-2">
+                    <div className="rank">Level {upLevel ? currentlevel! - 1 : currentlevel}</div>
+                    <div className="progress-bar">
+                        <div className="progress" style={{ width: `${currentProgress}%` }}></div>
+                    </div>
+                </div>
+            )}
+        </>
     );
 };
 

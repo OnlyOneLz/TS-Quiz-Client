@@ -21,7 +21,16 @@ const HomeProgress: React.FC<HomeProgressProps> = ({ prop, preLevelProgressNum, 
 
     let level: anyProgress = parseInt(localStorage.getItem('level') || '0');
 
-    return <SimulateProgress preLevelProgress={preLevelProgress} progress={progress} upLevel={upLevel} prop={prop} level={level} />;
+    return (
+        <SimulateProgress
+            preLevelProgress={preLevelProgress}
+            progress={progress}
+            progressNeeded={progressNeeded}
+            upLevel={upLevel}
+            prop={prop}
+            level={level}
+        />
+    );
 };
 
 export default HomeProgress;

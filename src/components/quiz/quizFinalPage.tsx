@@ -13,6 +13,7 @@ export default function QuizFinalPage() {
         localStorage.removeItem('users_answers');
         localStorage.removeItem('points');
         localStorage.removeItem('category');
+        localStorage.removeItem('alreadyLoaded');
     };
 
     let [progressShowing, setProgressShowing] = useState<boolean>(false);
@@ -26,6 +27,7 @@ export default function QuizFinalPage() {
     const userId: UserID = localStorage.getItem('user_id');
     const preLevel: anyProgress = parseInt(localStorage.getItem('level') || '0');
     let progress: anyProgress = parseInt(localStorage.getItem('progress') || '0');
+    let alreadyLoaded: string | boolean = localStorage.getItem('alreadyLoaded') || false;
 
     useEffect(() => {
         const changePointsProgress = () => {
@@ -33,27 +35,16 @@ export default function QuizFinalPage() {
                 setPointsShowing(true);
                 setTimeout(() => {
                     setProgressShowing(true);
-                    setTimeout(() => {
-                        setProgressPointsShowing(false);
-                    }, 20000);
                 }, 1200);
             }, 2000);
         };
 
         changePointsProgress();
 
-        setTimeout(() => {
-            setProgressDone(true);
-        }, 15000);
-
         const fetchProgressData = async () => {
             const updateProgressResult: updateProgressRes | undefined = await updateProgress(userId, points);
-
             if (updateProgressResult) {
                 const { progressNeeded, previousProgressNeeded, level } = updateProgressResult;
-
-                console.log(preLevel, level.level);
-
                 localStorage.setItem('pre_level_progress', String(progress));
                 setPreLevelProgress(parseInt(localStorage.getItem('pre_level_progress') || '0'));
                 localStorage.setItem('progress_needed', String(progressNeeded.progressNeeded));
@@ -98,23 +89,16 @@ export default function QuizFinalPage() {
         }
     });
 
-    console.log('level: ', preLevel);
-
-    console.log(questions, answers, userAnswers, correctAnswersMap);
-
     return (
-        <div className={`final-page ${progressDone ? 'fade-in-final' : ''}`}>
-            {progressPointsShowing && (
-                <div className={`final-page-progress-points-container ${progressDone ? 'fade-out' : ''}`}>
-                    {!progressShowing ? (
+        <div className={`final-page`}>
+            {!alreadyLoaded &&
+                (progressPointsShowing && !progressShowing ? (
+                    <div className={`final-page-progress-points-container `}>
                         <h2 className={`final-page-points ${pointsShowing ? 'fade-out' : ''}`}>You scored {points} points</h2>
-                    ) : (
-                        <div className={progressDone ? 'fade-out' : ''}>
-                            <HomeProgress prop={true} preLevelProgressNum={preLevelProgress} upLevel={upLevel} />
-                        </div>
-                    )}
-                </div>
-            )}
+                    </div>
+                ) : (
+                    <HomeProgress prop={true} preLevelProgressNum={preLevelProgress} upLevel={upLevel} />
+                ))}
             <h3 className="final-quiz-title">Your Quiz Results!</h3>
             <br />
             <div>

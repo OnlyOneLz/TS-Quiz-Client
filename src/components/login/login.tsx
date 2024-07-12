@@ -58,7 +58,11 @@ const MyFormComponent: React.FC = () => {
                 const data = await response.json();
                 const token = data.token;
                 localStorage.setItem('token', token);
-                console.log('User created');
+                localStorage.setItem('user_id', data.data.id);
+                localStorage.setItem('progress', data.data.progress);
+                localStorage.setItem('level', data.data.level);
+                localStorage.setItem('previous_progress_needed', data.data.previousProgressNeeded);
+                localStorage.setItem('progress_needed', data.data.progressNeeded);
                 window.location.href = '/';
             } else {
                 console.error('Failed to create user');
