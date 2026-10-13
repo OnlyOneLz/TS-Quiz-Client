@@ -1,3 +1,4 @@
+import { API_URL } from '../../config';
 import { QuizData, QuestionIds } from '../../types';
 
 const getQuiz = async (): Promise<QuizData | null> => {
@@ -5,7 +6,7 @@ const getQuiz = async (): Promise<QuizData | null> => {
     let questionIds: QuestionIds = [];
 
     try {
-        const response = await fetch(`http://localhost:4001/question/${quizType === 'Random' ? 'Random' : `display/${quizType}`}`, {
+        const response = await fetch(`${API_URL}/question/${quizType === 'Random' ? 'Random' : `display/${quizType}`}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -16,7 +17,7 @@ const getQuiz = async (): Promise<QuizData | null> => {
 
         data.data.map((question: { id: string }) => questionIds.push(question.id));
 
-        const response2 = await fetch(`http://localhost:4001/answer/display`, {
+        const response2 = await fetch(`${API_URL}/answer/display`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

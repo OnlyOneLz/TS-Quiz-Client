@@ -1,3 +1,4 @@
+import { API_URL } from '../../config';
 import React, { useState } from 'react';
 import Button from '@mui/material/Button';
 
@@ -11,7 +12,7 @@ const MyFormComponent: React.FC = () => {
 
     const checkCredentials = async () => {
         try {
-            const response = await fetch(`http://localhost:4001/user/user`, {
+            const response = await fetch(`${API_URL}/user/user`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -43,7 +44,7 @@ const MyFormComponent: React.FC = () => {
 
     const createCredentials = async () => {
         try {
-            const response = await fetch(`http://localhost:4001/user/users`, {
+            const response = await fetch(`${API_URL}/user/users`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

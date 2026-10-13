@@ -1,8 +1,9 @@
+import { API_URL } from '../../config';
 import { UserID } from '../../types';
 
 const updateScoreboard = async (userId: UserID, userScore: number) => {
     try {
-        const response = await fetch(`http://localhost:4001/scoreboard/user`, {
+        const response = await fetch(`${API_URL}/scoreboard/user`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -13,7 +14,7 @@ const updateScoreboard = async (userId: UserID, userScore: number) => {
             })
         });
         const data = await response.json();
-        const response2 = await fetch(`http://localhost:4001/user/add-progress`, {
+        const response2 = await fetch(`${API_URL}/user/add-progress`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

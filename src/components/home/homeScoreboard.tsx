@@ -1,3 +1,4 @@
+import { API_URL } from '../../config';
 import React, { useEffect, useState } from 'react';
 import { UserData, User } from '../../types';
 
@@ -11,7 +12,7 @@ const HomeScoreboard: React.FC = () => {
 
     const fetchScoreboardData = async () => {
         try {
-            const response = await fetch('http://localhost:4001/scoreboard/all', {
+            const response = await fetch(`${API_URL}/scoreboard/all`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json'
@@ -30,7 +31,7 @@ const HomeScoreboard: React.FC = () => {
 
     const fetchUserData = async (userId: number) => {
         try {
-            const response = await fetch(`http://localhost:4001/user/get-one-user/${userId}`, {
+            const response = await fetch(`${API_URL}/user/get-one-user/${userId}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json'
